@@ -7,15 +7,13 @@ from ij.io import FileSaver
 from ij.plugin.frame import RoiManager
 ###################################################################
 ###################################################################
-xVal= 1600 ##1250 ##2900 ## x value to click in Get Avg
-yVal = 229 ##240
+xVal= 1600 ## x value to click in Get Avg
+yVal = 229 ## y value to click in Get Avg
 
 Waitfor = 1  # in seconds
 ###################################################################
 sensor = "SynATPSnFR2-IRFP"
 ########## VARIABLES #################
-CRE = "WT\\"
-Culture = "Dopaminergic\\" #"Dopaminergic\\"
 
 Date = 250527
 Cell = 2
@@ -25,18 +23,16 @@ Drug = ""
 Calibration =  2  ## 0 = glucose & 0Gluc; 2 = Save Rois
 step = 1  ## 0 = Glucose; 1= Test Solution
 
+SolList = ["5G","G0"]
+SolNo =[1,1] 
 ##########################
 
-SolList = ["5G","G0GPI"]
-SolNo =[1,1] #
-#SolNo =[NoGlucose,NoTestSolution,NoWashSol]
-
-SensorType = ["IRFP","iATPsf"]
+SensorType = ["RFP","iATPsf"]
 ######################################################################
 window = 100   ## how many frames to AVG in the center
 
-FolderOUT = "D:\\Dropbox\\LABORATORY\\ANALYSIS\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"_C"+str(Cell)+"\\"
-FolderIN = "D:\\Dropbox\\LABORATORY\\DATA\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"\\C"+str(Cell)+"\\FormatedFiles\\"
+FolderOUT = "D:\\...\\ANALYSIS\\"+sensor+"\\2025\\"+str(Date)+"_C"+str(Cell)+"\\"
+FolderIN = "D:\\...\\DATA\\"+sensor+"\\2025\\"+str(Date)+"\\C"+str(Cell)+"\\FormatedFiles\\"
 
 if not os.path.exists(FolderOUT):
     os.makedirs(FolderOUT)
@@ -91,8 +87,9 @@ if Calibration == 0:
 				stop = TotalFrames
 			else:
 				stop = start+window	
-			####### HALO ##############
-			imp = IJ.selectWindow(HALOName)  #### JUSt recenter in HALO
+			
+			####### RFP ##############
+			imp = IJ.selectWindow(HALOName)  #### JUSt recenter in RFP channel
 			imp = IJ.getImage()
 			IJ.run(imp, "Z Project...", "start="+str(start)+" stop="+str(stop)+" projection=[Average Intensity]") ### z project to get average of the stack
 			AVG= IJ.getImage()
