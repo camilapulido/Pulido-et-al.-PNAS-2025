@@ -8,24 +8,23 @@ import time
 import glob
 
 ###### Setup Val ####
-xVal= 1650 ##2900 ##1250 ## x value to click in Get Avg
-yVal = 229 
+xVal= 1650 ## x value to click in Get Avg
+yVal = 229 ## y value to click in Get Avg
 
 Waitfor = 1  # in seconds
 ##################################################################
 ##################################################################
 ##################################################################
 ##################################################################
-CRE = "WT\\"
 Culture = "Dopaminergic\\"
-sensor = "SynHylight"
+sensor = "SynphypH_THP"
 
 Date = 250422
 Cell = 2
               
 #############################################
 
-FolderOUT = "D:\\Dropbox\\LABORATORY\\ANALYSIS\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"_C"+str(Cell)+"\\"
+FolderOUT = "D:\\...\\ANALYSIS\\"+Culture+sensor+"\\2025\\"+str(Date)+"_C"+str(Cell)+"\\"
 FolderIN = "D:\\Dropbox\\LABORATORY\\DATA\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"\\C"+str(Cell)+"\\"
 
 if not os.path.exists(FolderOUT):
