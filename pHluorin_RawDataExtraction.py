@@ -5,34 +5,37 @@ from ij.plugin.frame import RoiManager
 import os
 import time
 
-xVal= 1650 ##1250 ##2900 ## x value to click in Get Avg
-yVal = 229 ##240
+xVal= 1650 ## x value to click in Get Avg
+yVal = 229 ## y value to click in Get Avg
 
 Waitfor = 1
 ######################################################################
-CRE = "WT\\"
+##### Input Variables ###############
+
+CellLine = "WT\\"
 Culture = "Dopaminergic\\"
 sensor = "SynphypH_THP"
 
 Date = 250120
 Cell = 1
 CellType = ""
-Calibration = 1    ## 0 NH4Cl 1 = glucose & 0Gluc; 2 = Save Rois
+Calibration = 1   ## 0 = NH4Cl; 1 = 5-Gluc & 0-Gluc; 2 = Save Rois
 
-step = 0
+step = 0 ## 0 = 5-Gluc ; 1 = 0-Gluc
 
-SolList = ["5G","0G","LacPyr","MCT2uM_LacPyr","MCT6uM_LacPyr"]
-SolNo = [2,14,3,7,8]
+SolList = ["5G","0G"] ## All tyrode's 
+SolNo = [2,14] ## No. of repetions per Solution
 ######################################################################
 
-FolderOUT = "D:\\Dropbox\\LABORATORY\\ANALYSIS\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"_C"+str(Cell)+"\\"
-FolderIN = "D:\\Dropbox\\LABORATORY\\DATA\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"\\C"+str(Cell)+"\\"
+FolderOUT = "D:\\...\\ANALYSIS\\"+Culture+CellLine+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"_C"+str(Cell)+"\\"
+FolderIN = "D:\\...\\DATA\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"\\C"+str(Cell)+"\\"
 
 
 if not os.path.exists(FolderOUT):
     os.makedirs(FolderOUT)
 
 ######################################################################   
+##### NH4Cl data extraction #########################
 
 if Calibration == 0:
 	NameOut = str(Date)+"_C"+str(Cell)+CellType+"_NH4Cl"
@@ -55,7 +58,7 @@ if Calibration == 0:
 
 
 ################################
-####### SINGLE APs ##################
+####### SINGLE train of 50APs ##################
 
 if Calibration == 1:
 	Type = SolList[step]
@@ -63,7 +66,7 @@ if Calibration == 1:
 	
 	Name = "C"+str(Cell)+CellType+"_"+Type+"_50AP"
 		
-	Center = 3 ##film where to start centering 
+	Center = 3 ## which stack file to start ROIs re-centering
 		
  	for APs in range(0,Total):
  		if APs == 0:
@@ -82,9 +85,8 @@ if Calibration == 1:
 		time.sleep(Waitfor)
 
 		if APs == Center:
-			IJ.runMacroFile("D:\\Dropbox\\LABORATORY\\Scripts\\ImageJ\\DeltaPeak.ijm")				
-			#IJ.run(impOriginal, "Z Project...", "projection=[Average Intensity]") ### z project to get average of the stack
-				
+			IJ.runMacroFile("D:\\...\\pHluorin_DeltaPeak.ijm")	## Path where to call the 'pHluorin_DeltaPeak' macro
+							
 			time.sleep(Waitfor)
 					
 			imp = IJ.selectWindow("Result of Peak.fits")	
@@ -101,7 +103,6 @@ if Calibration == 1:
 			imp.close()
 			
 			impOriginal = IJ.selectWindow("Original.fits")
-			#impOriginal = IJ.selectWindow(impOriginal.title)
 			impOriginal = IJ.getImage()
 		
 			time.sleep(Waitfor)
@@ -128,8 +129,7 @@ if Calibration == 1:
 			
 		if APs == Center:
 			impOriginal = IJ.selectWindow("Original.fits")
-			##impOriginal = IJ.selectWindow(impOriginal.title)
-			Center+=7 ## center every X films
+			Center+= 7 ## How many Stack files to re-centering ROIs?
 		else:
 			impOriginal = IJ.selectWindow(NameIN+".fits")
 				
@@ -137,6 +137,8 @@ if Calibration == 1:
 		impOriginal.close()
 IJ.run("Close All", "");
 
+
+#### Save ROIs #######
 rm = RoiManager.getInstance()
 ROISPath = FolderIN
 if Calibration == 2:
