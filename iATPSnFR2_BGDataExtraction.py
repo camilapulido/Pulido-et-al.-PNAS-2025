@@ -7,30 +7,25 @@ import os
 import time
 import glob
 ###### Setup Val ####
-xVal= 1600 ##2900 ##1250 ## x value to click in Get Avg
-yVal = 229 
-#waiting = 1000000
-#waitmore =10000000
+xVal= 1600 ## x value to click in Get Avg
+yVal = 229 ## y value to click in Get Avg
 
 Waitfor = 1  # in seconds
-##################################################################
-##################################################################
-##################################################################
-##################################################################
-sensor = "SynATPSnFR2-IRFP"
-########## VARIABLES #################
-CRE = "WT\\"
-Culture = "Dopaminergic\\" #"Dopaminergic\\"
 
+##################################################################
+##################################################################
+
+sensor = "SynATPSnFR2-IRFP"
+
+########## VARIABLES #################
 
 Date = 250527
 Cell = 2
               
 #############################################
 
-FolderOUT = "D:\\Dropbox\\LABORATORY\\ANALYSIS\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"_C"+str(Cell)+"\\"
-FolderIN = "D:\\Dropbox\\LABORATORY\\DATA\\"+Culture+CRE+"ZeroGlucose\\"+sensor+"\\2025\\"+str(Date)+"\\C"+str(Cell)+"\\FormatedFiles\\"
-
+FolderOUT = "D:\\...\\ANALYSIS\\"+sensor+"\\2025\\"+str(Date)+"_C"+str(Cell)+"\\"
+FolderIN = "D:\\...\\DATA\\"+sensor+"\\2025\\"+str(Date)+"\\C"+str(Cell)+"\\FormatedFiles\\"
 
 
 ##################################################################
@@ -53,14 +48,10 @@ for file in glob.glob(FolderIN+"*.fits"):
 	OUTName = OriginalName[:len(OriginalName)-5]
 	NameOUT = "Black_"+str(Date)+"_"+OUTName
 	
-	#for x in range(0,waiting):
-	#	x=x
 	time.sleep(Waitfor)
 	IJ.run("IJ Robot", "order=Left_Click x_point="+str(xVal)+" y_point="+str(yVal)+" delay=50 keypress=[]")  ## GET AVG
 	time.sleep(Waitfor)
-	#for x in range(0,waitmore):
-	#	x=x
-
+	
  	IJ.renameResults("Time Trace(s)", "Results") 
 	Results2 = ResultsTable.getResultsTable()
 	AVG = Results2.getColumn(Results2.getColumnIndex("Average"))
@@ -75,7 +66,6 @@ for file in glob.glob(FolderIN+"*.fits"):
 	Results.saveAs(path)
 	stackOriginal.close()
 	IJ.run("Close All", "");
-	
 	
 	
 rm = RoiManager.getInstance()
