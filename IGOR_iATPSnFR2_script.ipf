@@ -1,26 +1,22 @@
 #pragma rtGlobals=3		// Use modern global access method and strict wave access.
 
-Function Load0GlucStim_SyniATPsf(Fecha,CellNo)  //, NoGluc, No0gluc)
-	String Fecha
-	Variable CellNo //, NoGluc, No0gluc
+Function iATPSnFR2_LoadRaw(Date,CellNo)  
+	String Date
+	Variable CellNo
 	string Type = ""
 	
-	String Culture = "Dopaminergic:WT:ZeroGlucose" //CRE-TH:"
-	//String Sensor = "FIP-Sct-ATP"  
-	
-	string Path  = "E:"+Culture+":SynATPSnFR2-IRFP:2025:"
+	string Path  = "E:SynATPSnFR2-IRFP:2025:"
 	
 	variable Sensor, y, Total, NoRnd,Sol
 	string NameFolder = Fecha+"_C"+num2str(CellNo)
 	
 	string NameINtemp, NameOUTemp, NameOUT, NameIN
-	String/G SolType = "GPSh4_5G_600AP;GPSh4_0G_600AP"
-	string/G SensorType = "IRFP;iATPsf"
+	String/G SolType = "5G_600AP;0G_600AP"
+	string/G SensorType = "RFP;iATPsf"
 	string/G SensorTypeOUT="IR;A"
 	
 	Make/O TotalSol = {1,1}
 	
-	//Make/O TotalSol = {NoGluc,No0gluc}
 	Make/T/O/N=(itemsinlist(SolType)*2) NameList	
 	variable counter = 0	
 	
@@ -46,8 +42,8 @@ Function Load0GlucStim_SyniATPsf(Fecha,CellNo)  //, NoGluc, No0gluc)
 						if(NoRnd ==0)
 							NameINtemp = NameIN 
 						endif
-						LoadWave/J/D/W/N/O/K=0 Path+NameFolder+":Black_"+NameINtemp+".txt"
-						rename MeanW, $NameOUTemp+"_Black"
+						LoadWave/J/D/W/N/O/K=0 Path+NameFolder+":BG_"+NameINtemp+".txt"
+						rename MeanW, $NameOUTemp+"_BG"
 					endif
 				endfor
 			endfor
