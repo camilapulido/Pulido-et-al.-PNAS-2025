@@ -2,7 +2,7 @@
 #include <KBColorizeTraces>
 
 //////// Function 1 ##############
-Function Load0GlucStim(Date,CellNo)
+Function pHluorin_LoadRawData(Date,CellNo)
 	String Date
 	Variable CellNo 
 	
